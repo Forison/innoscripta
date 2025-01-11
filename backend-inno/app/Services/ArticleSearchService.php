@@ -19,33 +19,24 @@ class ArticleSearchService
   {
     $query = Article::query();
 
-    // Search by keyword in multiple fields
     if (!empty($filters['keyword'])) {
       $query->where(function ($q) use ($filters) {
         $q->where('title', 'like', '%' . $filters['keyword'] . '%')
           ->orWhere('content', 'like', '%' . $filters['keyword'] . '%')
-          ->orWhere('description', 'like', '%' . $filters['keyword'] . '%');
+          ->orWhere('description', 'like', '%' . $filters['keyword'] . '%')
+          ->orWhere('author', 'like', '%' . $filters['keyword'] . '%');
       });
     }
 
-    // Filter by category
     if (!empty($filters['category'])) {
       $query->where('source_id', $filters['category']);
     }
 
-    // Filter by source name
     if (!empty($filters['source_name'])) {
       $query->where('source_name', 'like', '%' . $filters['source_name'] . '%');
     }
-
-    // Filter by exact date
     if (!empty($filters['publishedAt'])) {
       $query->whereDate('publishedAt', $filters['publishedAt']);
-    }
-
-    // Filter by date range
-    if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
-      $query->whereBetween('publishedAt', [$filters['startDate'], $filters['endDate']]);
     }
 
     return $query->get();

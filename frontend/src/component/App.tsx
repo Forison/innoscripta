@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 
 const Detail = lazy(() => import('./dashboard/Detail'))
-const Index = lazy(() => import('./dashboard/Index'))
+const NewsFeed = lazy(() => import('./dashboard/NewsFeed'))
 const LoginForm = lazy(() => import('./authentication/LoginForm'))
 const RegistrationForm = lazy(() => import('./authentication/RegistrationForm'))
 
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         } />
         <Route path='/' element={
           <Suspense>
-            <Index />
+            <NewsFeed />
           </Suspense>
         } />
       </Routes>

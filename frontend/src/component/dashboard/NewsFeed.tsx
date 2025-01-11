@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CustomCard from '../shared/CustomCard'
 import TopStoriesCard from '../shared/TopStoriesCard'
 import { Article } from '../../interface'
+import NewsWrapper from './FeedWrapper'
 
 
-const NewsFeed: React.FC = () => {
+const Index: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([])
   const latestNews = articles[0]
   const otherRecentNews = articles.slice(1, 3)
@@ -75,5 +76,12 @@ const NewsFeed: React.FC = () => {
     </>
   )
 }
+
+
+const NewsFeed: FC = (): JSX.Element => (
+  <NewsWrapper>
+    <Index />
+  </NewsWrapper>
+)
 
 export default NewsFeed

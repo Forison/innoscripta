@@ -13,13 +13,6 @@ const articleSlice = createSlice({
     setArticles: (state, action) => {
       state.articles = action.payload
     },
-    setLoading: (state) => {
-      state.status = 'loading'
-    },
-    setError: (state, action) => {
-      state.status = 'error'
-      state.error = action.payload
-    },
     clearArticles: (state) => {
       state.articles = []
       state.status = 'idle'
@@ -28,6 +21,6 @@ const articleSlice = createSlice({
   },
 })
 
-export const { setArticles, setLoading, setError, clearArticles } = articleSlice.actions
+export const { setArticles, clearArticles } = articleSlice.actions
 
 export default articleSlice.reducer
