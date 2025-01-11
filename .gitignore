@@ -45,4 +45,5 @@ backend/.idea
 backend/.nova
 backend/.vscode
 backend/.zed
+backend/.editorconfig
 

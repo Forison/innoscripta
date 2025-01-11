@@ -31,7 +31,6 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        Log::info('tHIS IS SO COOL');
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
@@ -50,7 +49,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Log::info('This is an info log from ExampleController!');
         $request->user()->tokens->each(function ($token) {
             $token->delete();
         });

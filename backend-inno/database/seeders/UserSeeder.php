@@ -10,8 +10,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'email' => 'admin@newfeed.com',
-            'password' => '11111111'
+            'email' => 'admin1@newfeed.com',
+            'password' => '11111111',
+            'role' => 'admin'
         ]);
     }
 }
