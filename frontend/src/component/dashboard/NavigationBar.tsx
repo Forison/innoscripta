@@ -1,30 +1,63 @@
-import React from 'react'
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-
-
-const user = {
-  name: 'John Doe',
-  profileImage: 'https://via.placeholder.com/50',
-}
+import React, { useEffect, useState } from 'react'
+import { Navbar, NavDropdown, Container, ButtonGroup, Button } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setUserRole } from '../redux/userSlice'
+import { fetchUserData } from '../../helper/userProfileApiHandler'
 
 const NavigationBar: React.FC = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const handleLogin = () => navigate('/login')
+  const handleRegister = () => navigate('/register')
+
+  useEffect(() => {
+    fetchUserData('GET', 'http://localhost:8000/api/v1/profile')
+      .then(data => {
+        setName(data.name);
+        dispatch(setUserRole(data.role === 'admin'))
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error)
+      })
+  }, [name])
+
+
+  const handleLogout = () => {
+    dispatch(setUserRole(false))
+    fetchUserData('POST', 'http://localhost:8000/api/v1/logout')
+      .then(() => {
+        navigate('/login');
+      })
+      .catch(error => {
+        console.error('Error logging out:', error)
+      })
+  }
+
   return (
     <Navbar expand='lg' bg='light' variant='light' sticky='top' className='shadow-sm'>
       <Container className='d-flex justify-content-between align-items-center'>
         <Navbar.Brand as={Link} to='/' className='fw-bold'>NewsFeed</Navbar.Brand>
         <div className='d-flex align-items-center'>
-          <NavDropdown
-            title={user.name}
-            id='user-dropdown'
-            align='end'
-          >
-            <NavDropdown.Item as={Link} to='/login' className='small'>Login</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to='/register' className='small'>Register</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to='/login' className='small'>Upload</NavDropdown.Item>
-            <hr />
-            <NavDropdown.Item as={Link} to='/logout' className='small'>Logout</NavDropdown.Item>
-          </NavDropdown>
+          {name ?
+            <NavDropdown
+              title={name}
+              id='user-dropdown'
+              align='end'
+            >
+              <NavDropdown.Item onClick={handleLogout} className='small'>Logout</NavDropdown.Item>
+            </NavDropdown>
+            :
+            <ButtonGroup>
+              <Button variant="primary" onClick={handleLogin} className='small'>
+                Log In
+              </Button>
+              <Button variant="secondary" onClick={handleRegister} className='small'>
+                Register
+              </Button>
+            </ButtonGroup>
+          }
         </div>
       </Container>
     </Navbar>

@@ -1,32 +1,64 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import CustomCard from '../shared/CustomCard'
 import { Article } from '../../interface'
 import NavigationBar from './NavigationBar'
 
+const ARTICLE: Article = {
+  id: 0,
+  sourceId: '',
+  sourceName: '',
+  author: '',
+  title: '',
+  description: '',
+  url: '',
+  urlToImage: '',
+  publishedAt: '',
+  content: '',
+}
 
 const Detail: React.FC = () => {
-  // const [article, setArticle] = useState<Article>
+  const [article, setArticle] = useState<Article>(ARTICLE)
+  const { id } = useParams<{ id?: string }>()
 
   useEffect(() => {
-    // console.log(article)
-  }, [])
+    if (id) {
+      fetch(`http://localhost:8000/api/v1/articles/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+          }
+          return response.json()
+        })
+        .then((data) => {
+          setArticle(data)
+        })
+        .catch((error) => console.error('Error:', error))
+    }
+  }, [id])
 
   return (
     <>
       <NavigationBar />
-      <Container fluid className='mt-5'>
-        <Row className='justify-content-center'>
-          <Col md={12} lg={6} className='rounded border shadow p-4'>
+      <Container fluid className="mt-5">
+        <Row className="justify-content-center">
+          <Col md={12} lg={6} className="rounded border p-4">
             <CustomCard
+              id={article.id}
               showMore={false}
-              author='Kofi Addo'
-              title='This is the most amazing title amongst all the title of the tile'
-              date='January 24, 2025'
-              imageSrc='https://picsum.photos/id/237/250'
-              desc='This is an amazing description is the This is an
-                         amazing description is the This is an amazing description is the This 
-                         is an amazing description is the '
+              author={article.author}
+              title={article.title}
+              date={article.publishedAt}
+              imageSrc={article.urlToImage}
+              desc={article.description}
+              content={article.content}
+              website={article.url}
             />
           </Col>
         </Row>

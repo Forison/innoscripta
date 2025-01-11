@@ -6,7 +6,14 @@ export interface Article {
   title: string
   description: string
   url: string
-  urlImage: string
+  urlToImage: string
   publishedAt: string
   content: string
+}
+
+export interface User {
+  name?: string
+  email: string
+  password: string
+  passwordConfirmation?: string
 }

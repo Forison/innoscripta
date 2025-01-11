@@ -16,7 +16,7 @@ const TopStoriesCard: React.FC<CardProps> = ({ id, imageSrc, title, desc }) => {
         <Col xs={12} md={7}>
           <Card.Body>
             <Card.Text className='small text-secondary'>
-              {desc}
+              {desc.slice(0, 50) + '...'}
             </Card.Text>
           </Card.Body>
         </Col>
