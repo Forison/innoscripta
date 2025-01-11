@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
+import FilteredNews from './dashboard/FilteredNews'
 
 const Detail = lazy(() => import('./dashboard/Detail'))
 const NewsFeed = lazy(() => import('./dashboard/NewsFeed'))
@@ -29,6 +30,11 @@ const App: React.FC = () => {
         <Route path='/' element={
           <Suspense>
             <NewsFeed />
+          </Suspense>
+        } />
+        <Route path='newsfeed/' element={
+          <Suspense>
+            <FilteredNews />
           </Suspense>
         } />
       </Routes>

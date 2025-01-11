@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Card, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { timeFormatter } from '../../helper/timeFormatter'
 import Loading from './Loading'
 import { RootState } from '../redux/store'
+import DeleteArticle from '../dashboard/DeleteArticle'
 
 interface CardProps {
   imageSrc: string
   author: string
-  id?: number
+  id: number
   date?: string
   title: string
   desc?: string
@@ -44,27 +45,10 @@ const CustomCard: React.FC<CardProps> = ({
 
   const handleImageError = () => setCurrentImage(placeholder)
   const handleClick = () => navigate(`/newsfeed/${id}`)
-  const handleDelete = () => {
-    fetch(`http://localhost:8000/api/v1/articles/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json()
-      })
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error))
-  }
-
   if (!isLoaded) return <Loading />
 
   return (
-    <Card className='rounded cursor-pointer' onClick={handleClick}>
+    <Card className='rounded cursor-pointer'>
       {currentImage && (
         <Card.Img
           variant='top'
@@ -94,17 +78,9 @@ const CustomCard: React.FC<CardProps> = ({
           {content && <>{content}</>}
         </Card.Text>
         <div className="d-flex justify-content-between align-items-center">
-          {website && (
-            <>
-              {showMore && <span className='text-primary ml-5'>Read More</span>}
-              <a href={website} target="_blank" rel="noopener noreferrer" className="text-primary"> Visit News Page</a>
-            </>)}
-          {isAdmin && (
-            <FaTrash
-              className="text-danger cursor-pointer"
-              onClick={handleDelete}
-            />
-          )}
+          {website && (<a href={website} target="_blank" rel="noopener noreferrer" className="text-primary"> Visit News Page</a>)}
+          {showMore && <span className='text-primary small ml-5' onClick={handleClick}>Read More</span>}
+          {isAdmin && (<DeleteArticle id={id} />)}
         </div>
       </Card.Body>
     </Card>

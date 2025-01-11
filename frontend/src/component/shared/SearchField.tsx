@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
-import { InputGroup, FormControl, Button, Col, Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { FaSearch } from 'react-icons/fa';
-import { setArticles } from '../redux/articleSlice';
+import React, { useState } from 'react'
+import { InputGroup, FormControl, Col, Form } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { FaSearch } from 'react-icons/fa'
+import { setArticles } from '../redux/articleSlice'
+import { useNavigate } from 'react-router-dom'
 
 const SearchField: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [sourceName, setSourceName] = useState<string>('');
-  const [publishedAt, setPublishedAt] = useState<string>('');
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const [query, setQuery] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [sourceName, setSourceName] = useState<string>('')
+  const [publishedAt, setPublishedAt] = useState<string>('')
+  const dispatch = useDispatch()
 
   const handleSearch = async () => {
-    // Build query parameters
     const filters = {
       keyword: query,
       category: selectedCategory,
       source_name: sourceName,
       publishedAt,
-    };
+    }
 
     const queryParams = new URLSearchParams(
-      Object.entries(filters).filter(([, value]) => value) // Include only non-empty filters
-    ).toString();
+      Object.entries(filters).filter(([, value]) => value)
+    ).toString()
 
     try {
       const response = await fetch(`http://localhost:8000/api/v1/search?${queryParams}`, {
@@ -30,18 +31,19 @@ const SearchField: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`)
       }
 
-      const data = await response.json();
-      dispatch(setArticles(data));
+      const data = await response.json()
+      dispatch(setArticles(data))
+      navigate('/newsfeed')
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.error('Error fetching search results:', error)
     }
-  };
+  }
 
   return (
     <Col xs={12} md={12} lg={10} className='p-0 mb-3'>
@@ -89,7 +91,7 @@ const SearchField: React.FC = () => {
         </InputGroup.Text>
       </InputGroup>
     </Col>
-  );
-};
+  )
+}
 
-export default SearchField;
+export default SearchField

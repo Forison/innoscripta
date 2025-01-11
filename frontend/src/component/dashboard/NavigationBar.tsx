@@ -53,7 +53,7 @@ const NavigationBar: React.FC = () => {
               <Button variant="primary" onClick={handleLogin} className='small'>
                 Log In
               </Button>
-              <Button variant="secondary" onClick={handleRegister} className='small'>
+              <Button variant="info" onClick={handleRegister} className='small'>
                 Register
               </Button>
             </ButtonGroup>
