@@ -21,10 +21,9 @@ const ARTICLE: Article = {
 const Detail: React.FC = () => {
   const [article, setArticle] = useState<Article>(ARTICLE)
   const { id } = useParams<{ id?: string }>()
-
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/v1/articles/${id}`, {
+      fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/articles/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

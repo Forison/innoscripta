@@ -27,7 +27,7 @@ const App: React.FC = () => {
           />
           <Route path="/newsfeed/:id" element={<Detail />} />
           <Route path="/" element={<NewsFeed />} />
-          <Route path="newsfeed/" element={<FilteredNews />} />
+          {/* <Route path="newsfeed/" element={<FilteredNews />} /> */}
         </Routes>
       </Suspense>
     </Router>

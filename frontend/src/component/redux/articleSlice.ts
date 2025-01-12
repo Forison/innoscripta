@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Article } from '../../interface'
 
-const initialState = {
+
+interface State {
+  articles: Article[]
+  isPersonalize: boolean
+}
+const initialState: State = {
   articles: [],
-  status: 'idle',
-  error: null,
+  isPersonalize: false,
 }
 
 const articleSlice = createSlice({
@@ -13,14 +18,12 @@ const articleSlice = createSlice({
     setArticles: (state, action) => {
       state.articles = action.payload
     },
-    clearArticles: (state) => {
-      state.articles = []
-      state.status = 'idle'
-      state.error = null
-    },
+    setPersonalize: (state, action) => {
+      state.isPersonalize = action.payload
+    }
   },
 });
 
-export const { setArticles, clearArticles } = articleSlice.actions
+export const { setArticles, setPersonalize } = articleSlice.actions
 
 export default articleSlice.reducer

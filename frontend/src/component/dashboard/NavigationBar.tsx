@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Navbar, NavDropdown, Container, ButtonGroup, Button, Breadcrumb } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiAlignJustify } from 'react-icons/fi'
 import PreferenceForm from '../shared/PreferencesForm'
 import { setUserRole, setAuthStatus } from '../redux/userSlice'
 import { fetchUserData } from '../../helper/userProfileApiHandler'
+import { RootState } from '../redux/store'
 
 const NavigationBar: React.FC = () => {
+  const isLogin = useSelector((state: RootState) => state.user.isLogin)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -50,7 +52,7 @@ const NavigationBar: React.FC = () => {
           NewsFeed
         </Navbar.Brand>
         <div className='d-flex align-items-center'>
-          {name ?
+          {isLogin ?
             <NavDropdown
               title={name}
               id='user-dropdown'

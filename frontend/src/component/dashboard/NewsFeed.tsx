@@ -4,14 +4,18 @@ import CustomCard from '../shared/CustomCard'
 import TopStoriesCard from '../shared/TopStoriesCard'
 import { Article } from '../../interface'
 import NewsWrapper from './FeedWrapper'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
+import { setArticles } from '../redux/articleSlice'
 
 const Index: React.FC = () => {
-  const [articles, setArticles] = useState<Article[]>([])
+  const articles = useSelector((state: RootState) => state.articles.articles)
   const latestNews = articles[0]
   const otherRecentNews = articles.slice(1, 3)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/v1/articles', {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/articles`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -23,10 +27,10 @@ const Index: React.FC = () => {
         }
         return response.json();
       })
-      .then(data => setArticles(data))
-      .catch(error => console.error('Error:', error));
+      .then(data => dispatch(setArticles(data)))
+      .catch(error => console.error('Error:', error))
   }, [])
-  console.log(articles)
+
   return (
     <>
       <Container>

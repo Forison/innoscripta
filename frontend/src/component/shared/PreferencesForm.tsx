@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Row, Col, Badge, Button } from 'react-bootstrap'
+import { Form, Row, Col, Badge } from 'react-bootstrap'
 import { Formik, Field, Form as FormikForm } from 'formik'
 import { getCookie } from '../../helper/tokenHandler'
-import { setArticles } from '../redux/articleSlice'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { setArticles, setPersonalize } from '../redux/articleSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
 
 interface Preference {
   authors: string[]
@@ -17,67 +17,81 @@ const initialValues: Preference = {
 }
 
 const Preferences: React.FC = () => {
-  const navigate = useNavigate()
-  const [myPreferences, setMyPreferences] = useState<Preference>({ authors: [], sources: [] })
+  const [preferences, setPreferences] = useState<Preference>({ authors: [], sources: [] })
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([])
   const [selectedSources, setSelectedSources] = useState<string[]>([])
   const dispatch = useDispatch()
+  const isPersonalize = useSelector((state: RootState) => state.articles.isPersonalize)
 
-  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
-
-  // Fetch mypreferences on mount
   useEffect(() => {
-    fetch('http://localhost:8000/api/v1/preferences')
-      .then(response => response.json())
-      .then(data => {
-        setMyPreferences(data.preference)
-      })
-      .catch(error => console.error('Error fetching preferences:', error))
-  }, [])
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/preferences`)
+      .then((response) => response.json())
+      .then((data) => setPreferences(data.preference))
+      .catch((error) => console.error('Error fetching preferences:', error))
 
-  // Fetch my current preferences
-  useEffect(() => {
-    fetch('http://localhost:8000/api/v1/myPreference', {
-      method: 'GET',
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/myPreference`, {
       headers: {
         Authorization: `Bearer ${getCookie()}`,
         'Content-Type': 'application/json',
       },
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        return response.json()
-      })
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setSelectedAuthors(data.authors || [])
         setSelectedSources(data.sources || [])
+        dispatch(setPersonalize(true))
       })
-      .catch(error => console.error('Error fetching preferences:', error))
-  }, [])
+      .catch((error) => console.error('Error fetching my preferences:', error))
+  }, [dispatch])
 
-  const handleAddBadge = (value: string, type: 'authors' | 'sources') => {
-    if (!value) return
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const filters = {
+        authors: selectedAuthors.join(','),
+        sources: selectedSources.join(',')
+      }
+      const queryParams = new URLSearchParams(
+        Object.entries(filters).filter(([, value]) => value)
+      ).toString()
 
-    if (type === 'authors' && !selectedAuthors.includes(value)) {
-      setSelectedAuthors([...selectedAuthors, value])
-    } else if (type === 'sources' && !selectedSources.includes(value)) {
-      setSelectedSources([...selectedSources, value])
+      const url = isPersonalize
+        ? `${process.env.REACT_APP_BASE_URL}/api/v1/getPersonalizedFeed?${queryParams}`
+        : `${process.env.REACT_APP_BASE_URL}/api/v1/articles`
+
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${getCookie()}`,
+          },
+        })
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+
+        const data = await response.json()
+        dispatch(setArticles(data))
+      } catch (error) {
+        console.error('Error fetching articles:', error)
+      }
     }
-  }
 
-  const handleRemoveBadge = (value: string, type: 'authors' | 'sources') => {
+    fetchArticles()
+  }, [isPersonalize, selectedAuthors, selectedSources, dispatch])
+
+  const handleBadgeToggle = (value: string, type: 'authors' | 'sources') => {
     if (type === 'authors') {
-      setSelectedAuthors(selectedAuthors.filter(author => author !== value))
-    } else if (type === 'sources') {
-      setSelectedSources(selectedSources.filter(source => source !== value))
+      setSelectedAuthors((prev) =>
+        prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      )
+    } else {
+      setSelectedSources((prev) =>
+        prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      )
     }
   }
 
-  const handleSubmit = async (values: Preference) => {
+  const updatePreferences = async (values: Preference) => {
     try {
-      const response = await fetch('http://localhost:8000/api/v1/preferences', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/savePreference`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,51 +109,16 @@ const Preferences: React.FC = () => {
   }
 
   useEffect(() => {
-    if (debounceTimer) clearTimeout(debounceTimer)
-    setDebounceTimer(
-      setTimeout(() => {
-        handleSubmit({ authors: selectedAuthors, sources: selectedSources })
-      }, 500)
-    )
-  }, [selectedAuthors, selectedSources, debounceTimer])
+    setTimeout(() => {
+      updatePreferences({ authors: selectedAuthors, sources: selectedSources })
+    }, 500)
+  }, [selectedAuthors, selectedSources])
 
-
-  const handleApplyFilter = async () => {
-    const filters = {
-      authors: selectedAuthors.join(','),
-      sources: selectedSources.join(',')
-    }
-
-    const queryParams = new URLSearchParams(
-      Object.entries(filters).filter(([, value]) => value)
-    ).toString()
-
-    try {
-      const response = await fetch(`http://localhost:8000/api/v1/getPersonalizedFeed?${queryParams}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getCookie()}`
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      console.log(data)
-      dispatch(setArticles(data))
-      navigate('/newsfeed')
-    } catch (error) {
-      console.error('Error fetching search results:', error)
-    }
-  }
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ values, setFieldValue }) => (
+    <Formik initialValues={initialValues} onSubmit={() => { }}>
+      {({ setFieldValue }) => (
         <FormikForm className='p-4'>
-          <h3 className='mb-4'>Preferences</h3>
+          <h3 className='mb-4'>Personalize Feed</h3>
           <Row className='mb-3'>
             <Col xs={12}>
               <Form.Group controlId='sources' className='mb-3'>
@@ -151,11 +130,11 @@ const Preferences: React.FC = () => {
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     const value = e.target.value
                     setFieldValue('sources', value)
-                    handleAddBadge(value, 'sources')
+                    handleBadgeToggle(value, 'sources')
                   }}
                 >
                   <option value=''>Select a Source</option>
-                  {myPreferences.sources.map((source, idx) => (
+                  {preferences.sources.map((source, idx) => (
                     <option key={idx} value={source}>
                       {source}
                     </option>
@@ -168,7 +147,7 @@ const Preferences: React.FC = () => {
                       pill
                       bg='info'
                       className='me-2'
-                      onClick={() => handleRemoveBadge(source, 'sources')}
+                      onClick={() => handleBadgeToggle(source, 'sources')}
                       style={{ cursor: 'pointer' }}
                     >
                       {source} <span>x</span>
@@ -188,11 +167,11 @@ const Preferences: React.FC = () => {
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     const value = e.target.value
                     setFieldValue('authors', value)
-                    handleAddBadge(value, 'authors')
+                    handleBadgeToggle(value, 'authors')
                   }}
                 >
                   <option value=''>Select an Author</option>
-                  {myPreferences.authors.map((author, idx) => (
+                  {preferences.authors.map((author, idx) => (
                     <option key={idx} value={author}>
                       {author}
                     </option>
@@ -205,7 +184,7 @@ const Preferences: React.FC = () => {
                       pill
                       bg='info'
                       className='me-2'
-                      onClick={() => handleRemoveBadge(author, 'authors')}
+                      onClick={() => handleBadgeToggle(author, 'authors')}
                       style={{ cursor: 'pointer' }}
                     >
                       {author} <span>x</span>
@@ -213,14 +192,13 @@ const Preferences: React.FC = () => {
                   ))}
                 </div>
               </Form.Group>
-              <Button
-                variant='light'
-                type='button'
-                className='w-100 border'
-                onClick={handleApplyFilter}
-              >
-                Apply Filters
-              </Button>
+              <Form.Check
+                type='switch'
+                label='Personalize Feed'
+                className='w-100 text-center'
+                checked={isPersonalize}
+                onChange={(event) => dispatch(setPersonalize(event.target.checked))}
+              />
             </Col>
           </Row>
         </FormikForm>
