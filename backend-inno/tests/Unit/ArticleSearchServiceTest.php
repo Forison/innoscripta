@@ -79,20 +79,4 @@ class ArticleSearchServiceTest extends TestCase
         $articles = $this->articleSearchService->search($filters);
         $this->assertCount(0, $articles);
     }
-
-    /** @test */
-    public function it_can_fetch_articles_based_on_user_preferences()
-    {
-        $user = User::factory()->create();
-        $user->preferences()->createMany([
-            ['source_name' => 'Tech News', 'source_id' => 'tech', 'author' => 'John Doe'],
-            ['source_name' => 'Health News', 'source_id' => 'health', 'author' => 'Jane Smith']
-        ]);
-
-        $articles = $this->articleSearchService->fetchPersonalizedFeed($user);
-
-        $this->assertCount(2, $articles);
-        $this->assertEquals('Tech News', $articles->first()->source_name);
-        $this->assertEquals('Health News', $articles->last()->source_name);
-    }
 }

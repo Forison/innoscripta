@@ -42,4 +42,28 @@ class ArticleSearchService
 
     return $query->get();
   }
+
+  public function personalizedFeed(array $filters)
+  {
+
+    $authors = isset($filters['authors']) ? explode(',', $filters['authors']) : [];
+    $sources = isset($filters['sources']) ? explode(',', $filters['sources']) : [];
+
+    $authors = array_map('trim', $authors);
+    $sources = array_map('trim', $sources);
+
+    $articles = Article::query()
+      ->where(function ($query) use ($authors) {
+        if (!empty($authors)) {
+          $query->whereIn('author', $authors);
+        }
+      })
+      ->orWhere(function ($query) use ($sources) {
+        if (!empty($sources)) {
+          $query->whereIn('source_name', $sources);
+        }
+      })
+      ->get();
+    return $articles;
+  }
 }

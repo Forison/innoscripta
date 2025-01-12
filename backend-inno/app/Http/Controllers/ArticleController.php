@@ -67,32 +67,14 @@ class ArticleController extends Controller
     {
         $filters = $request->only(['keyword', 'category', 'source_name', 'publishedAt']);
         $articles = $this->articleSearchService->search($filters);
-        return response()->json($articles);
+        return response()->json($articles, 200);
     }
 
 
-    // public function getPersonalizedFeed(Request $request)
-    // {
-    //     $query = Article::query();
-    //     // Retrieve filters from query parameters
-    //     $authors = $request->query('authors');
-    //     $sources = $request->query('sources');
-    //     $authorList = explode(',', $authors);
-    //     $sourceList = explode(',', $sources);
-    //     foreach ($sourceList as $key => $value) {
-    //         $query->where('source_name', $value);
-    //     }
-    //     foreach ($authorList as $key => $value) {
-    //         $query->where('author', $value);
-    //     }
-
-    //     Log::info($query->get());
-    //     $a = Article::whereIn('author', [$authors])
-    //         ->orWhereIn('source_name', [$sources])
-    //         ->get();
-    //     Log::info($a);
-
-    //     // Return the results as JSON
-    //     return response()->json($query->get(), 200);
-    // }
+    public function getPersonalizedFeed(Request $request)
+    {
+        $filters = $request->all();
+        $articles = $this->articleSearchService->personalizedFeed($filters);
+        return response()->json($articles, 200);
+    }
 }
