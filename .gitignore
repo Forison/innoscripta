@@ -49,4 +49,5 @@ backend-inno/.zed
 backend-inno/.editorconfig
 backend-inno/.editorconfig
 backend-inno/.env
-
+.env
+.DS_Store
