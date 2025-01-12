@@ -39,7 +39,6 @@ const Preferences: React.FC = () => {
       .then((data) => {
         setSelectedAuthors(data.authors || [])
         setSelectedSources(data.sources || [])
-        dispatch(setPersonalize(true))
       })
       .catch((error) => console.error('Error fetching my preferences:', error))
   }, [dispatch])

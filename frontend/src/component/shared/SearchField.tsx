@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { InputGroup, FormControl, Col, Form } from 'react-bootstrap'
+import { InputGroup, FormControl, Col } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import { setArticles } from '../redux/articleSlice'

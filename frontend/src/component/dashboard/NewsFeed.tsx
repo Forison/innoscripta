@@ -1,12 +1,12 @@
-import React, { useState, useEffect, FC } from 'react'
+import React, { useEffect, FC } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CustomCard from '../shared/CustomCard'
 import TopStoriesCard from '../shared/TopStoriesCard'
-import { Article } from '../../interface'
 import NewsWrapper from './FeedWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import { setArticles } from '../redux/articleSlice'
+import AlertBanner from '../shared/AlertBanner'
 
 const Index: React.FC = () => {
   const articles = useSelector((state: RootState) => state.articles.articles)
@@ -29,7 +29,11 @@ const Index: React.FC = () => {
       })
       .then(data => dispatch(setArticles(data)))
       .catch(error => console.error('Error:', error))
-  }, [])
+  }, [dispatch])
+
+  if (articles.length === 0) {
+    return <AlertBanner variant='info' message='No news Item found' />
+  }
 
   return (
     <>

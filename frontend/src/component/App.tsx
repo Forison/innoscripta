@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { RootState } from './redux/store'
 import Loading from './shared/Loading'
 
-const FilteredNews = lazy(() => import('./dashboard/FilteredNews'))
 const Detail = lazy(() => import('./dashboard/Detail'))
 const NewsFeed = lazy(() => import('./dashboard/NewsFeed'))
 const LoginForm = lazy(() => import('./authentication/LoginForm'))
@@ -27,7 +26,6 @@ const App: React.FC = () => {
           />
           <Route path="/newsfeed/:id" element={<Detail />} />
           <Route path="/" element={<NewsFeed />} />
-          {/* <Route path="newsfeed/" element={<FilteredNews />} /> */}
         </Routes>
       </Suspense>
     </Router>
