@@ -46,7 +46,7 @@ const SearchField: React.FC = () => {
   }
 
   return (
-    <Col xs={12} md={12} lg={10} className='p-0 mb-3'>
+    <Col xs={12} md={12} lg={10} className='p-0'>
       <InputGroup className='mb-3'>
         <FormControl
           placeholder='Search by keyword'
@@ -55,7 +55,6 @@ const SearchField: React.FC = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
 
-        {/* Category filter dropdown */}
         <Form.Select
           aria-label='Category'
           value={selectedCategory}
@@ -65,10 +64,8 @@ const SearchField: React.FC = () => {
           <option value='Technology'>Technology</option>
           <option value='Health'>Health</option>
           <option value='Business'>Business</option>
-          {/* Add more categories as needed */}
         </Form.Select>
 
-        {/* Source name filter */}
         <FormControl
           placeholder='Source Name'
           aria-label='Source Name'
@@ -76,7 +73,6 @@ const SearchField: React.FC = () => {
           onChange={(e) => setSourceName(e.target.value)}
         />
 
-        {/* Date range filters */}
         <FormControl
           type='date'
           placeholder='Published At'
@@ -85,7 +81,6 @@ const SearchField: React.FC = () => {
           onChange={(e) => setPublishedAt(e.target.value)}
         />
 
-        {/* Search button */}
         <InputGroup.Text as='button' onClick={handleSearch}>
           <FaSearch />
         </InputGroup.Text>

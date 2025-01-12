@@ -7,7 +7,7 @@ import App from './component/App'
 import { store } from './component/redux/store'
 
 import reportWebVitals from './reportWebVitals'
-import './index.scss'
+import './index.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

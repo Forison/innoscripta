@@ -76,6 +76,6 @@ class User extends Authenticatable
     }
     public function preferences()
     {
-        return $this->hasMany(Preference::class);
+        return $this->hasOne(Preference::class);
     }
 }

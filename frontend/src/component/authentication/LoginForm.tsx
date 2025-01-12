@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Form, Button, Row, Col, Container, Alert } from 'react-bootstrap'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 import { Formik, Field, ErrorMessage, Form as FormikForm } from 'formik'
-import { registrationSchema } from '../../schema/registrationSchema'
 import { User } from '../../interface'
 import { useNavigate } from 'react-router-dom'
 import AlertBanner from '../shared/AlertBanner'
@@ -70,6 +69,7 @@ const RegistrationForm: React.FC = () => {
                 <AlertBanner
                   variant='info'
                   message={
+                    // There is no security threat here, this is safe
                     <div dangerouslySetInnerHTML={{ __html: "Don't have an account? <a href='/register'>Sign Up</a>" }} />
                   }
                 />

@@ -46,9 +46,9 @@ const Detail: React.FC = () => {
   return (
     <>
       <NavigationBar />
-      <Container fluid className="mt-5">
-        <Row className="justify-content-center">
-          <Col md={12} lg={6} className="rounded border p-4">
+      <Container fluid className='mt-5'>
+        <Row className='justify-content-center'>
+          <Col md={12} lg={6} className='rounded border p-4'>
             <CustomCard
               id={article.id}
               showMore={false}

@@ -5,7 +5,6 @@ import TopStoriesCard from '../shared/TopStoriesCard'
 import { Article } from '../../interface'
 import NewsWrapper from './FeedWrapper'
 
-
 const Index: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([])
   const latestNews = articles[0]
@@ -27,7 +26,7 @@ const Index: React.FC = () => {
       .then(data => setArticles(data))
       .catch(error => console.error('Error:', error));
   }, [])
-
+  console.log(articles)
   return (
     <>
       <Container>

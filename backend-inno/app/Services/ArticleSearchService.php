@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ArticleSearchService
 {
@@ -37,24 +38,6 @@ class ArticleSearchService
     }
     if (!empty($filters['publishedAt'])) {
       $query->whereDate('publishedAt', $filters['publishedAt']);
-    }
-
-    return $query->get();
-  }
-
-
-  public function fetchPersonalizedFeed(User $user)
-  {
-    $preferences = $user->preferences()->get();
-
-    $query = Article::query();
-
-    if ($preferences->isNotEmpty()) {
-      foreach ($preferences as $preference) {
-        $query->orWhere('source_name', 'like', '%' . $preference->source_name . '%')
-          ->orWhere('source_id', $preference->source_id)
-          ->orWhere('author', 'like', '%' . $preference->author . '%');
-      }
     }
 
     return $query->get();

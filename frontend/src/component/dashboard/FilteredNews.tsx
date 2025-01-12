@@ -19,7 +19,7 @@ const Index: React.FC<Props> = ({ articles }) => {
     <Container className='mt-5'>
       <Row>
         {articles.map((article, index) => (
-          <Col xs={6} md={4} key={index}>
+          <Col xs={6} md={4} key={index} className='mb-2'>
             <CustomCard
               id={article.id}
               author={article.author}

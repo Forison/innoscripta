@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Services\ArticleSearchService;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
@@ -21,6 +22,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::mostRecent()->get();
+        Log::info(get_class($articles));
 
         return response()->json($articles);
     }
@@ -63,16 +65,34 @@ class ArticleController extends Controller
 
     public function search(Request $request)
     {
-        $filters = $request->only(['keyword', 'category', 'source_name', 'publishedAt', 'startDate', 'endDate']);
+        $filters = $request->only(['keyword', 'category', 'source_name', 'publishedAt']);
         $articles = $this->articleSearchService->search($filters);
         return response()->json($articles);
     }
 
-    public function fetchPersonalizedFeed(Request $request)
-    {
-        $user = $request->user();
 
-        $articles = $this->articleSearchService->fetchPersonalizedFeed($user);
-        return response()->json($articles);
-    }
+    // public function getPersonalizedFeed(Request $request)
+    // {
+    //     $query = Article::query();
+    //     // Retrieve filters from query parameters
+    //     $authors = $request->query('authors');
+    //     $sources = $request->query('sources');
+    //     $authorList = explode(',', $authors);
+    //     $sourceList = explode(',', $sources);
+    //     foreach ($sourceList as $key => $value) {
+    //         $query->where('source_name', $value);
+    //     }
+    //     foreach ($authorList as $key => $value) {
+    //         $query->where('author', $value);
+    //     }
+
+    //     Log::info($query->get());
+    //     $a = Article::whereIn('author', [$authors])
+    //         ->orWhereIn('source_name', [$sources])
+    //         ->get();
+    //     Log::info($a);
+
+    //     // Return the results as JSON
+    //     return response()->json($query->get(), 200);
+    // }
 }

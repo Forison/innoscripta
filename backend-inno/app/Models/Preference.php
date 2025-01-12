@@ -9,10 +9,14 @@ class Preference extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'source_name', 'source_id', 'author'];
+    protected $fillable = [
+        'user_id',
+        'sources',
+        'authors',
+    ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $casts = [
+        'sources' => 'array',
+        'authors' => 'array',
+    ];
 }

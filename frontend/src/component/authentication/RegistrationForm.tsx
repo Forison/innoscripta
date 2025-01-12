@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Button, Row, Col, Container, Alert } from 'react-bootstrap'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 import { Formik, Field, ErrorMessage, Form as FormikForm } from 'formik'
 import { registrationSchema } from '../../schema/registrationSchema'
 import { User } from '../../interface'
@@ -91,6 +91,7 @@ const RegistrationForm: React.FC = () => {
                 <AlertBanner
                   variant='info'
                   message={
+                    // There is no security breach, this is safe
                     <div dangerouslySetInnerHTML={{ __html: "Already have an account? <a href='/login'>Sign In</a>" }} />
                   }
                 />

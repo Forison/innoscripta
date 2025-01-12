@@ -47,6 +47,6 @@ class Article extends Model
 
     public function scopeMostRecent($query)
     {
-        return $query->orderBy('publishedAt', 'desc');
+        return $query->whereNotNull('publishedAt')->orderBy('publishedAt', 'desc');
     }
 }

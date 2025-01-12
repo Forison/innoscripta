@@ -4,6 +4,7 @@
 frontend/node_modules
 frontend/.pnp
 frontend/.pnp.js
+frontend/.env
 
 # testing
 frontend/coverage
@@ -22,28 +23,30 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-backend/.phpunit.cache
-backend/node_modules
-backend/public/build
-backend/public/hot
-backend/public/storage
-backend/storage/*.key
-backend/storage/pail
-backend/vendor
-backend/.env
-backend/.env.backup
-backend/.env.production
-backend/.phpactor.json
-backend/.phpunit.result.cache
-backend/Homestead.json
-backend/Homestead.yaml
-backend/auth.json
-backend/npm-debug.log
-backend/yarn-error.log
-backend/.fleet
-backend/.idea
-backend/.nova
-backend/.vscode
-backend/.zed
-backend/.editorconfig
+backend-inno/.phpunit.cache
+backend-inno/node_modules
+backend-inno/public/build
+backend-inno/public/hot
+backend-inno/public/storage
+backend-inno/storage/*.key
+backend-inno/storage/pail
+backend-inno/vendor
+backend-inno/.env
+backend-inno/.env.backup
+backend-inno/.env.production
+backend-inno/.phpactor.json
+backend-inno/.phpunit.result.cache
+backend-inno/Homestead.json
+backend-inno/Homestead.yaml
+backend-inno/auth.json
+backend-inno/npm-debug.log
+backend-inno/yarn-error.log
+backend-inno/.fleet
+backend-inno/.idea
+backend-inno/.nova
+backend-inno/.vscode
+backend-inno/.zed
+backend-inno/.editorconfig
+backend-inno/.editorconfig
+backend-inno/.env
 

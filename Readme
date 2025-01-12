@@ -1,49 +1,134 @@
-./vendor/bin/pint
+## Description
 
-# Getting Started with Create React App
+This coding assessment test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Technologies
 
-## Available Scripts
+- Laravel
+- React
+- TypeScript
+- Bootstrap
+- Redux
+- Docker
+- mySql
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+1. Register
+2. Sign In
+3. Logout
+4. Search and filter
+5. Personalized your fee
+6. mobile responsiveness
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Extra features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+7. You can log in also as admin, this gives you a previlege to delete news from the result as you wish.
 
-### `npm test`
+```
+$ email: admin@newfeed.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+$ password: 11111111
 
-### `npm run build`
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## UI
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![link up](./Readme/1.png)
+![link up](./Readme/2.png)
+![link up](./Readme/3.png)
+![link up](./Readme/4.png)
+![link up](./Readme/5.png)
+![link up](./Readme/6.png)
+![link up](./Readme/7.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## PRE-REQUISITE
 
-### `npm run eject`
+Make sure you have installed docker on your system
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Make sure you sure you have mySql install locally or you can also rely on phpMyAdmin
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In this project there are 3 .env files one will be at the root of the application, one will be in the frontend directory, and the other one for backend-inno
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Root
+```
+.env For root directory, require for running docker
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+APP_NAME=
+APP_ENV=
+APP_KEY=
+DB_CONNECTION=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+MYSQL_ROOT_PASSWOR=
+REACT_APP_API_URL=
 
-## Learn More
+NEW_API_KEY=https://newsapi.org/docs Visit this site to generate the an API key for the newApi
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+API_ENDPOINT_URL=
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
 
+Frontend
+
+```
+.env Frontend
+API_ENDPOINT_URL= (The base domain for backend server
+
+```
+
+Backend (This is optional, if you decide to rely on docker for using the application, you wouldn't need set it otherwise
+
+```
+ 
+ Use the same environment define in the root section
+
+```
+
+## HOW TO START THE APPLICATION
+
+> Clone the repository to your local machine
+
+> cd into the directory
+
+```
+$ docker-compose build
+```
+
+```
+$ docker-compose up
+```
+
+
+You can also decide to run the application without docker in which case you(**Optional**):
+
+
+
+```sh
+$ cd backend-inno 
+```
+
+```sh
+$ php artisan migrate
+```
+
+```sh
+$ php artisan db:seed
+```
+
+```sh
+$ php artisan serve
+```
+
+You can play with the test in general by running the commant
+
+```
+php artisan test
+```
+
+Thank you!
+
+Feel free to contact when the need arise in the course of the review on linkedin @forison or email addoboakyeforison@gmail.com

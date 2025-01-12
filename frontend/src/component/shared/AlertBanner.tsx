@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import Alert from 'react-bootstrap/Alert'
 
 interface Props {
@@ -12,4 +13,4 @@ const AlertBanner: React.FC<Props> = ({ message, variant }) => {
   )
 }
 
-export default AlertBanner
+export default memo(AlertBanner)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { FaTrash } from 'react-icons/fa'
@@ -10,10 +10,10 @@ interface Props {
 
 const DeleteArticle: React.FC<Props> = ({ id }) => {
   const [show, setShow] = useState(false)
-  const [message, setMessage] = useState('Are you sure you want to remove this article permantely?')
+  const [message, setMessage] = useState('Are you sure you want to remove this article permanently?')
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleClose = useCallback(() => setShow(false), [])
+  const handleShow = useCallback(() => setShow(true), [])
 
   const handleDelete = () => {
     fetch(`http://localhost:8000/api/v1/articles/${id}`, {
@@ -25,7 +25,7 @@ const DeleteArticle: React.FC<Props> = ({ id }) => {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`)
         }
         return response.json()
       })
