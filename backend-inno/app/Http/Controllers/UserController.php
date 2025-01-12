@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
-use App\Models\User;
 use App\Services\ArticleSearchService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 
 class UserController extends Controller
 {
@@ -34,9 +31,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $preferences = $user->preferences;
+        Log::info($preferences);
+
         return response()->json([
             'authors' => $preferences->authors,
-            'sources' => $preferences->sources
+            'sources' => $preferences->sources,
         ], 200);
     }
 }

@@ -3,12 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
-use App\Models\User;
 use App\Services\NewsApiService;
 use Illuminate\Database\Seeder;
 
 class ArticleSeeder extends Seeder
-
 {
     public function run()
     {
@@ -17,9 +15,6 @@ class ArticleSeeder extends Seeder
         $articles = $newsApiService->fetchTopHeadlines();
 
         foreach ($articles as $article) {
-
-            // Skip articles that have been marked removed
-
             if (
                 in_array('[Removed]', $article, true) ||
                 (isset($article['source']) && in_array('[Removed]', $article['source'], true))
@@ -34,7 +29,7 @@ class ArticleSeeder extends Seeder
 
             $articleModel = Article::create([
                 'source_id' => $article['source']['id'] ?? 'others',
-                'source_name' => $article['source']['name'] ?? '',
+                'source_name' => $article['source']['name'] ?? 'No source name',
                 'author' => implode(', ', $authors),
                 'title' => $article['title'],
                 'description' => $article['description'] ?? 'No description available',

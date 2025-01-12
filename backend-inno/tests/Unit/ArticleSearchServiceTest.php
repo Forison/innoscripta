@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\Article;
-use App\Models\User;
 use App\Services\ArticleSearchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,7 +19,7 @@ class ArticleSearchServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->articleSearchService = new ArticleSearchService();
+        $this->articleSearchService = new ArticleSearchService;
         $this->articles = [
             Article::factory()->create([
                 'source_id' => 'tech-news',
@@ -36,7 +35,7 @@ class ArticleSearchServiceTest extends TestCase
                 'source_id' => 'sports-news',
                 'source_name' => 'Sports News',
                 'publishedAt' => now()->addDay(),
-            ])
+            ]),
         ];
     }
 

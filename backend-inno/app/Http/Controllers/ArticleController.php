@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Services\ArticleSearchService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use App\Services\ArticleSearchService;
 use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
@@ -67,14 +67,15 @@ class ArticleController extends Controller
     {
         $filters = $request->only(['keyword', 'category', 'source_name', 'publishedAt']);
         $articles = $this->articleSearchService->search($filters);
+
         return response()->json($articles, 200);
     }
-
 
     public function getPersonalizedFeed(Request $request)
     {
         $filters = $request->all();
         $articles = $this->articleSearchService->personalizedFeed($filters);
+
         return response()->json($articles, 200);
     }
 }

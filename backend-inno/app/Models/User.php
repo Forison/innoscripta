@@ -74,6 +74,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Article::class, 'article_user');
     }
+
     public function preferences()
     {
         return $this->hasOne(Preference::class);

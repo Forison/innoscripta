@@ -6,8 +6,8 @@ use App\Models\Article;
 use App\Models\User;
 use App\Services\ArticleSearchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Mockery;
+use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
 {
@@ -51,7 +51,7 @@ class ArticleControllerTest extends TestCase
     public function test_show_returns_article()
     {
         $article = Article::factory()->create();
-        $response = $this->getJson('/api/v1/articles/' . $article->id);
+        $response = $this->getJson('/api/v1/articles/'.$article->id);
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -80,7 +80,7 @@ class ArticleControllerTest extends TestCase
             'content' => 'Updated content of the article.',
         ];
 
-        $response = $this->putJson('/api/v1/articles/' . $article->id, $updatedData);
+        $response = $this->putJson('/api/v1/articles/'.$article->id, $updatedData);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('articles', $updatedData);
@@ -105,7 +105,7 @@ class ArticleControllerTest extends TestCase
             'content' => 'Updated content of the article.',
         ];
 
-        $response = $this->putJson('/api/v1/articles/' . $article->id, $updatedData);
+        $response = $this->putJson('/api/v1/articles/'.$article->id, $updatedData);
 
         $response->assertStatus(403); // Forbidden, since the user isn't an admin
     }
@@ -118,11 +118,11 @@ class ArticleControllerTest extends TestCase
         $article = Article::factory()->create();
 
         if ($user->isAdmin()) {
-            $response = $this->deleteJson('/api/v1/articles/' . $article->id);
+            $response = $this->deleteJson('/api/v1/articles/'.$article->id);
             $response->assertStatus(200);
             $this->assertDatabaseMissing('articles', ['id' => $article->id]);
         } else {
-            $response = $this->deleteJson('/api/v1/articles/' . $article->id);
+            $response = $this->deleteJson('/api/v1/articles/'.$article->id);
             $response->assertStatus(403);
         }
     }
@@ -134,10 +134,9 @@ class ArticleControllerTest extends TestCase
 
         $article = Article::factory()->create();
 
-        $response = $this->deleteJson('/api/v1/articles/' . $article->id);
+        $response = $this->deleteJson('/api/v1/articles/'.$article->id);
         $response->assertStatus(403);
     }
-
 
     public function test_get_personalized_feed()
     {
@@ -149,7 +148,7 @@ class ArticleControllerTest extends TestCase
             ->with(['keyword' => 'tech'])
             ->andReturn([
                 ['id' => 1, 'title' => 'Tech News', 'content' => 'Latest tech news.'],
-                ['id' => 2, 'title' => 'AI Updates', 'content' => 'Advances in AI.']
+                ['id' => 2, 'title' => 'AI Updates', 'content' => 'Advances in AI.'],
             ]);
 
         $this->app->instance(ArticleSearchService::class, $mockService);
@@ -157,7 +156,7 @@ class ArticleControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 ['id' => 1, 'title' => 'Tech News', 'content' => 'Latest tech news.'],
-                ['id' => 2, 'title' => 'AI Updates', 'content' => 'Advances in AI.']
+                ['id' => 2, 'title' => 'AI Updates', 'content' => 'Advances in AI.'],
             ]);
     }
 }
