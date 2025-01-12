@@ -50,7 +50,9 @@ Make sure you sure you have mySql install locally or you can also rely on phpMyA
 
 In this project there are 3 .env files one will be at the root of the application, one will be in the frontend directory, and the other one for backend-inno
 
-Root
+
+### Root
+
 ```
 .env For root directory, require for running docker
 
@@ -69,21 +71,21 @@ REACT_APP_API_URL=
 NEW_API_KEY=https://newsapi.org/docs Visit this site to generate the an API key for the newApi
 
 API_ENDPOINT_URL=
-
 ```
 
 Frontend
 
 ```
 .env Frontend
+
 API_ENDPOINT_URL= (The base domain for backend server
 
 ```
 
+
 Backend (This is optional, if you decide to rely on docker for using the application, you wouldn't need set it otherwise
 
 ```
- 
  Use the same environment define in the root section
 
 ```
@@ -95,38 +97,49 @@ Backend (This is optional, if you decide to rely on docker for using the applica
 > cd into the directory
 
 ```
+
 $ docker-compose build
+
 ```
 
 ```
+
 $ docker-compose up
-```
 
+```
 
 You can also decide to run the application without docker in which case you(**Optional**):
 
+```
 
-
-```sh
 $ cd backend-inno 
+
 ```
 
-```sh
+```
+
 $ php artisan migrate
+
 ```
 
-```sh
+```
+
 $ php artisan db:seed
+
 ```
 
-```sh
+```
+
 $ php artisan serve
+
 ```
 
 You can play with the test in general by running the commant
 
 ```
+
 php artisan test
+
 ```
 
 Thank you!
