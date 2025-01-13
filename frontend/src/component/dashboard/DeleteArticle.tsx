@@ -16,7 +16,7 @@ const DeleteArticle: React.FC<Props> = ({ id }) => {
   const handleShow = useCallback(() => setShow(true), [])
 
   const handleDelete = () => {
-    fetch(`http://localhost:8000/api/v1/articles/${id}`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/articles/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

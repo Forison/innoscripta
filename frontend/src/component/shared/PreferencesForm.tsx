@@ -117,7 +117,6 @@ const Preferences: React.FC = () => {
     <Formik initialValues={initialValues} onSubmit={() => { }}>
       {({ setFieldValue }) => (
         <FormikForm className='p-4'>
-          <h3 className='mb-4'>Personalize Feed</h3>
           <Row className='mb-3'>
             <Col xs={12}>
               <Form.Group controlId='sources' className='mb-3'>

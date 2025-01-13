@@ -42,17 +42,6 @@ class ArticleController extends Controller
         return response()->json($article);
     }
 
-    public function update(Request $request, $id)
-    {
-
-        $validatedData = $request->validate((new Article)->rules());
-        $article = Article::findOrFail($id);
-        $this->authorize('update', $article);
-        $article->update($validatedData);
-
-        return response()->json($article, 200);
-    }
-
     public function destroy($id)
     {
 

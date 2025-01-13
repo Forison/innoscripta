@@ -19,7 +19,7 @@ const RegistrationForm: React.FC = () => {
 
   const handleSubmit = (values: User) => {
     authApiHandler(
-      'http://localhost:8000/api/v1/login',
+      `${process.env.REACT_APP_BASE_URL}/api/v1/login`,
       values,
       setVariant,
       setMessage,

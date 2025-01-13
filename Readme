@@ -57,11 +57,8 @@ DB_DATABASE=
 DB_USERNAME=
 DB_PASSWORD=
 MYSQL_ROOT_PASSWOR=
-REACT_APP_API_URL=
 
-NEW_API_KEY=https://newsapi.org/docs Visit this site to generate the an API key for the newApi
-
-API_ENDPOINT_URL=
+REACT_APP_BASE_URL=
 ```
 
 Frontend
@@ -69,7 +66,7 @@ Frontend
 ```
 .env Frontend
 
-API_ENDPOINT_URL= (The base domain for backend server
+REACT_APP_BASE_URL= (The base domain for backend server)
 
 ```
 
