@@ -25,12 +25,12 @@ This coding assessment test
 
 7. You can log in also as admin, this gives you a previlege to delete news from the result as you wish.
 
-```
+
 $ email: admin@newfeed.com
 
 $ password: 11111111
 
-```
+
 
 
 ## PRE-REQUISITE
@@ -44,7 +44,7 @@ In this project there are 3 .env files one will be at the root of the applicatio
 
 ### Root
 
-```
+
 .env For root directory, require for running docker
 
 APP_NAME=
@@ -59,24 +59,24 @@ DB_PASSWORD=
 MYSQL_ROOT_PASSWOR=
 
 REACT_APP_BASE_URL=
-```
+
 
 Frontend
 
-```
+
 .env Frontend
 
-REACT_APP_BASE_URL= (The base domain for backend server)
+REACT_APP_BASE_URL= (The base domain for backend server
 
-```
+
 
 
 Backend (This is optional, if you decide to rely on docker for using the application, you wouldn't need set it otherwise
 
-```
+
  Use the same environment define in the root section
 
-```
+
 
 ## HOW TO START THE APPLICATION
 
@@ -84,51 +84,51 @@ Backend (This is optional, if you decide to rely on docker for using the applica
 
 > cd into the directory
 
-```
+
 
 $ docker-compose build
 
-```
 
-```
+
+
 
 $ docker-compose up
 
-```
 
-You can also decide to run the application without docker in which case you(**Optional**):
-
-```
 
 $ cd backend-inno 
 
-```
 
-```
+
+
 
 $ php artisan migrate
 
-```
 
-```
+
+
 
 $ php artisan db:seed
 
-```
 
-```
+
+
+
+You can also decide to run the application without docker in which case you(**Optional**):
+
+
 
 $ php artisan serve
 
-```
+
 
 You can play with the test in general by running the commant
 
-```
+
 
 php artisan test
 
-```
+
 
 Thank you!
 
